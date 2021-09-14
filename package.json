@@ -1,0 +1,23 @@
+{
+  "name": "training-typescript-pokemon",
+  "version": "1.0.0",
+  "description": "The exercises of Typescript Course",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FBerthelot/training-typescript-pokemon.git"
+  },
+  "author": "Florent Berthelot",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FBerthelot/training-typescript-pokemon/issues"
+  },
+  "homepage": "https://github.com/FBerthelot/training-typescript-pokemon#readme",
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  }
+}
