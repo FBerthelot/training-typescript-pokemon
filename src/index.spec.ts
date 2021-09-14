@@ -1,4 +1,4 @@
-import {firstToAttack, fightRound, fight} from './index';
+import {Battle} from './index';
 
 const pikachu = {
     name: 'pikachu',
@@ -22,22 +22,28 @@ const bulbizarre = {
 };
 
 describe('pokemon battle', () => {
+    let battleService: Battle;
+    beforeAll(() => {
+        battleService = new Battle();
+    });
+
+
     describe('when pikachu fight against salamèche', () => {
         it('should be pikachu to attack first', () => {
-            expect(firstToAttack(pikachu, salameche)).toBe(pikachu);
+            expect(battleService.firstToAttack(pikachu, salameche)).toBe(pikachu);
         });
 
         it('should be pikachu to win', () => {
-            expect(fight(salameche, pikachu).name).toBe('pikachu');
+            expect(battleService.fight(salameche, pikachu).name).toBe('pikachu');
         });
     });
 
     describe('when pikachu fight against bulbizarre', () => {
         it('should be pikachu to attack first', () => {
-            expect(firstToAttack(pikachu, bulbizarre)).toBe(pikachu);
+            expect(battleService.firstToAttack(pikachu, bulbizarre)).toBe(pikachu);
         });
         it('should be bulbizarre to win', () => {
-            expect(fight(pikachu, bulbizarre).name).toBe('bulbizarre');
+            expect(battleService.fight(pikachu, bulbizarre).name).toBe('bulbizarre');
         });
     });
 
@@ -71,11 +77,11 @@ describe('pokemon battle', () => {
             })
 
             it('should be the attacker pikachu to start', () => {
-                expect(firstToAttack(attacker, defender)).toBe(attacker);
+                expect(battleService.firstToAttack(attacker, defender)).toBe(attacker);
             });
 
             it('should be the attacker pikachu to win', () => {
-                expect(fight(attacker, defender).name).toBe('pikachu1');
+                expect(battleService.fight(attacker, defender).name).toBe('pikachu1');
             });
         });
 
@@ -85,36 +91,36 @@ describe('pokemon battle', () => {
             })
 
             it('should be the defender pikachu to start', () => {
-                expect(firstToAttack(attacker, defender)).toBe(defender);
+                expect(battleService.firstToAttack(attacker, defender)).toBe(defender);
             });
 
             it('should be the defender pikachu to win', () => {
-                expect(fight(attacker, defender).name).toBe('pikachu2');
+                expect(battleService.fight(attacker, defender).name).toBe('pikachu2');
             });
         })
     });
 
     describe('fightRound', () => {
         it('shoud make pikachu loose 10 HP when salamèche attack him', () => {
-            expect(fightRound(salameche, pikachu).hp).toBe(90);
+            expect(battleService.fightRound(salameche, pikachu).hp).toBe(90);
         });
         it('shoud make pikachu loose 50 HP when bulbizarre attack him', () => {
-            expect(fightRound(bulbizarre, pikachu).hp).toBe(50);
+            expect(battleService.fightRound(bulbizarre, pikachu).hp).toBe(50);
         });
         it('shoud make salamèche loose 20 HP when pikachu attack him', () => {
-            expect(fightRound(pikachu, salameche).hp).toBe(80);
+            expect(battleService.fightRound(pikachu, salameche).hp).toBe(80);
         });
         it('shoud make salamèche loose 50 HP when bulbizarre attack him', () => {
-            expect(fightRound(bulbizarre, salameche).hp).toBe(50);
+            expect(battleService.fightRound(bulbizarre, salameche).hp).toBe(50);
         });
         it('shoud make bulbizarre loose 10 HP when salamèche attack him', () => {
-            expect(fightRound(salameche, bulbizarre).hp).toBe(90);
+            expect(battleService.fightRound(salameche, bulbizarre).hp).toBe(90);
         });
         it('shoud make bulbizarre loose 20 HP when pikachu attack him', () => {
-            expect(fightRound(pikachu, bulbizarre).hp).toBe(80);
+            expect(battleService.fightRound(pikachu, bulbizarre).hp).toBe(80);
         });
         it('shoud make pikachu loose 20 HP when pikachu attack him', () => {
-            expect(fightRound(pikachu, pikachu).hp).toBe(80);
+            expect(battleService.fightRound(pikachu, pikachu).hp).toBe(80);
         });
     });
 });
