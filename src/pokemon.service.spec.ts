@@ -1,24 +1,28 @@
 import {Battle} from './index';
+import { PokemonFire, PokemonIce, PokemonType } from './pokemon.model';
 
-const pikachu = {
+const pikachu: PokemonFire = {
     name: 'pikachu',
     speed: 50,
     attack: 20,
-    hp: 100
+    hp: 100,
+    type: PokemonType.FIRE
 };
 
-const salameche = {
+const salameche: PokemonFire = {
     name: 'salameche',
     speed: 40,
     attack: 10,
-    hp: 100
+    hp: 100,
+    type: PokemonType.FIRE
 };
 
-const bulbizarre = {
+const bulbizarre: PokemonFire = {
     name: 'bulbizarre',
-    speed: 40,
+    speed: 30,
     attack: 50,
-    hp: 100
+    hp: 100,
+    type: PokemonType.FIRE
 };
 
 describe('pokemon battle', () => {
@@ -52,14 +56,16 @@ describe('pokemon battle', () => {
             name: 'pikachu1',
             speed: 50,
             attack: 20,
-            hp: 100
+            hp: 100,
+            type: PokemonType.ICE
         };
 
         const defender = {
             name: 'pikachu2',
             speed: 50,
             attack: 20,
-            hp: 100
+            hp: 100,
+            type: PokemonType.ICE
         };
 
         const MathRandom = Math.random;
@@ -121,6 +127,27 @@ describe('pokemon battle', () => {
         });
         it('shoud make pikachu loose 20 HP when pikachu attack him', () => {
             expect(battleService.fightRound(pikachu, pikachu).hp).toBe(80);
+        });
+    });
+
+    describe('when a fire pokemonfight a ice pokemon (defender)', () => {
+        const firePokemon: PokemonFire = bulbizarre;
+
+        const icePokemon: PokemonIce = {
+            ...salameche,
+            type: PokemonType.ICE
+        };
+
+        it('should make fire pokemon start when firepokemon is attacker', () => {
+            expect(battleService.firstToAttack(firePokemon, icePokemon)).toBe(firePokemon);
+        });
+
+        it('should make fire pokemon start when firepokemon is defender', () => {
+            expect(battleService.firstToAttack(icePokemon, firePokemon)).toBe(firePokemon);
+        });
+
+        it('should add a bonus of 50% of attack (15) to the attacker', () => {
+            expect(battleService.fightRound(icePokemon, firePokemon).hp).toBe(85);
         });
     });
 });
