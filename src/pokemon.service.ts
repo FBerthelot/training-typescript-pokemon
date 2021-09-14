@@ -1,15 +1,16 @@
-import { Pokemon, PokemonFire, PokemonType } from "./pokemon.model";
+import { Logger } from "./log.service";
+import { Pokemon } from "./pokemon.model";
+import { isFirePokemon } from "./pokemon.utils";
 
 export class Battle {
-    isFirePokemon(pokemon: Pokemon): pokemon is PokemonFire {
-        return pokemon?.type === PokemonType.FIRE
-    }
+    pokemonLogger = new Logger<Pokemon>();
+    battleLogger = new Logger();
 
     firstToAttack(attacker: Pokemon, defender: Pokemon): Pokemon {
-        if(this.isFirePokemon(attacker) && !this.isFirePokemon(defender)) {
+        if(isFirePokemon(attacker) && !isFirePokemon(defender)) {
             return attacker;
         }
-        if(this.isFirePokemon(defender) && !this.isFirePokemon(attacker)) {
+        if(isFirePokemon(defender) && !isFirePokemon(attacker)) {
             return defender;
         }
 
@@ -22,19 +23,26 @@ export class Battle {
     fightRound(attacker: Pokemon, defender: Pokemon): Pokemon {
         return {
             ...defender,
-            hp: this.isFirePokemon(attacker) ? defender.hp - attacker.attack : defender.hp - (attacker.attack * 1.5)
+            hp: isFirePokemon(attacker) ? defender.hp - attacker.attack : defender.hp - (attacker.attack * 1.5)
         };
     }
 
     fight(attacker: Pokemon, defender: Pokemon): Pokemon {
         let currentAttacker = this.firstToAttack(attacker, defender);
         let currentDefender = currentAttacker === attacker ? defender : attacker;
+
+        this.battleLogger.log('Début de bataille');
     
         while(currentAttacker.hp > 0 && currentDefender.hp > 0) {
+            this.battleLogger.log('Tour de bataille');
+
             const newAttacker = this.fightRound(currentAttacker, currentDefender);
             currentDefender = currentAttacker;
             currentAttacker = newAttacker;
         }
+
+        this.battleLogger.log('Fin de bataille');
+        this.pokemonLogger.log(currentDefender);
     
         return currentDefender;
     }

@@ -1,6 +1,16 @@
 import {Battle} from './index';
 import { PokemonFire, PokemonIce, PokemonType } from './pokemon.model';
 
+jest.mock('./log.service', () => {
+    class Logger {
+        log: jest.Mock;
+        constructor() {
+            this.log = jest.fn()
+        }
+    }
+    return {Logger};
+})
+
 const pikachu: PokemonFire = {
     name: 'pikachu',
     speed: 50,
