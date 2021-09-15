@@ -1,11 +1,9 @@
-import { Logger } from "./log.service";
+import { logOutput } from "./log.decorator";
 import { Pokemon } from "./pokemon.model";
 import { isFirePokemon } from "./pokemon.utils";
 
 export class Battle {
-    pokemonLogger = new Logger<Pokemon>();
-    battleLogger = new Logger();
-
+    @logOutput('orange')
     firstToAttack(attacker: Pokemon, defender: Pokemon): Pokemon {
         if(isFirePokemon(attacker) && !isFirePokemon(defender)) {
             return attacker;
@@ -20,6 +18,7 @@ export class Battle {
         return attacker.speed > defender.speed ? attacker : defender;
     }
 
+    @logOutput('yellow')
     fightRound(attacker: Pokemon, defender: Pokemon): Pokemon {
         return {
             ...defender,
@@ -27,22 +26,16 @@ export class Battle {
         };
     }
 
+    @logOutput('green')
     fight(attacker: Pokemon, defender: Pokemon): Pokemon {
         let currentAttacker = this.firstToAttack(attacker, defender);
         let currentDefender = currentAttacker === attacker ? defender : attacker;
-
-        this.battleLogger.log('Début de bataille');
     
         while(currentAttacker.hp > 0 && currentDefender.hp > 0) {
-            this.battleLogger.log('Tour de bataille');
-
             const newAttacker = this.fightRound(currentAttacker, currentDefender);
             currentDefender = currentAttacker;
             currentAttacker = newAttacker;
         }
-
-        this.battleLogger.log('Fin de bataille');
-        this.pokemonLogger.log(currentDefender);
     
         return currentDefender;
     }

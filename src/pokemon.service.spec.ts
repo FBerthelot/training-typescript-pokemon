@@ -61,7 +61,7 @@ describe('pokemon battle', () => {
         });
     });
 
-    describe('when attacker pikachu fight against defender pikachunpm', () => {
+    describe('when attacker pikachu fight against defender pikachu', () => {
         const attacker = {
             name: 'pikachu1',
             speed: 50,
